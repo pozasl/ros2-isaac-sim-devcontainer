@@ -1,0 +1,49 @@
+services:
+  ros2:
+    build:
+      context: .
+      dockerfile: Dockerfile.humble
+    command: /bin/sh -c "while sleep 1000; do :; done" 
+    environment:
+      - DISPLAY
+      - XAUTHORITY
+      - ROS_DOMAIN_ID=0
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - ..:/home/vscode/workspace:cached
+    network_mode: "host"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+  isaac-sim:
+    image: nvcr.io/nvidia/isaac-sim:2022.2.1
+    entrypoint: bash  -c "sleep 1 && unset LD_LIBRARY_PATH && sleep 1 &&./runapp.sh"
+    environment:
+      - ACCEPT_EULA=Y
+      - DISPLAY
+      - FASTRTPS_DEFAULT_PROFILES_FILE=/isaac-sim/ros2_workspace/fastdds.xml
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - ~/.Xauthority:/root/.Xauthority
+      - ..:/tmp/project
+      - ~/docker/isaac-sim/cache/kit:/isaac-sim/kit/cache/Kit:rw
+      - ~/docker/isaac-sim/cache/ov:/root/.cache/ov:rw
+      - ~/docker/isaac-sim/cache/pip:/root/.cache/pip:rw
+      - ~/docker/isaac-sim/cache/glcache:/root/.cache/nvidia/GLCache:rw
+      - ~/docker/isaac-sim/cache/computecache:/root/.nv/ComputeCache:rw
+      - ~/docker/isaac-sim/logs:/root/.nvidia-omniverse/logs:rw
+      - ~/docker/isaac-sim/data:/root/.local/share/ov/data:rw
+      - ~/docker/isaac-sim/documents:/root/Documents:rw
+    network_mode: "host"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]

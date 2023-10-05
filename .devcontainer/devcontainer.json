@@ -1,0 +1,7 @@
+{
+	"name": "Isaac Sim Humble",
+	"dockerComposeFile": "docker-compose.yml",
+	"service": "ros2",
+	"workspaceFolder": "/home/vscode/workspace",
+	"remoteUser": "vscode"
+}
