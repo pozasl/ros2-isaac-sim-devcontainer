@@ -1,0 +1,14 @@
+FROM nvcr.io/nvidia/isaac-sim:2022.2.1
+
+ARG USERNAME=isaac-sim
+ARG USER_UID=1000
+ARG USER_GID=$USER_UID
+RUN groupadd --gid $USER_GID $USERNAME \
+    && useradd -s /bin/bash --uid $USER_UID --gid $USER_GID -m $USERNAME
+RUN chown -R $USERNAME:$USERNAME /isaac-sim 
+RUN mkdir -p /home/$USERNAME/.nvidia-omniverse/config
+RUN cp -r /root/.nvidia-omniverse/config /home/$USERNAME/.nvidia-omniverse/config
+RUN chown -R $USERNAME:$USERNAME /home/$USERNAME
+RUN ls -la /home/$USERNAME
+# Switch from root to user
+USER $USERNAME

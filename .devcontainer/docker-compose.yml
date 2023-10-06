@@ -21,7 +21,10 @@ services:
               capabilities: [gpu]
 
   isaac-sim:
-    image: nvcr.io/nvidia/isaac-sim:2022.2.1
+    #image: nvcr.io/nvidia/isaac-sim:2022.2.1
+    build:
+      context: .
+      dockerfile: Dockerfile.isaac
     entrypoint: bash  -c "sleep 1 && unset LD_LIBRARY_PATH && sleep 1 &&./runapp.sh"
     environment:
       - ACCEPT_EULA=Y
@@ -29,16 +32,16 @@ services:
       - FASTRTPS_DEFAULT_PROFILES_FILE=/isaac-sim/ros2_workspace/fastdds.xml
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix
-      - ~/.Xauthority:/root/.Xauthority
+      - ~/.Xauthority:/home/isaac-sim/.Xauthority
       - ..:/tmp/project
       - ~/docker/isaac-sim/cache/kit:/isaac-sim/kit/cache/Kit:rw
-      - ~/docker/isaac-sim/cache/ov:/root/.cache/ov:rw
-      - ~/docker/isaac-sim/cache/pip:/root/.cache/pip:rw
-      - ~/docker/isaac-sim/cache/glcache:/root/.cache/nvidia/GLCache:rw
-      - ~/docker/isaac-sim/cache/computecache:/root/.nv/ComputeCache:rw
-      - ~/docker/isaac-sim/logs:/root/.nvidia-omniverse/logs:rw
-      - ~/docker/isaac-sim/data:/root/.local/share/ov/data:rw
-      - ~/docker/isaac-sim/documents:/root/Documents:rw
+      - ~/docker/isaac-sim/cache/ov:/home/isaac-sim/.cache/ov:rw
+      - ~/docker/isaac-sim/cache/pip:/home/isaac-sim/.cache/pip:rw
+      - ~/docker/isaac-sim/cache/glcache:/home/isaac-sim/.cache/nvidia/GLCache:rw
+      - ~/docker/isaac-sim/cache/computecache:/home/isaac-sim/.nv/ComputeCache:rw
+      - ~/docker/isaac-sim/logs:/home/isaac-sim/.nvidia-omniverse/logs:rw
+      - ~/docker/isaac-sim/data:/home/isaac-sim/.local/share/ov/data:rw
+      - ~/docker/isaac-sim/documents:/home/isaac-sim/Documents:rw
     network_mode: "host"
     deploy:
       resources:
