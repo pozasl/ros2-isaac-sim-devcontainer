@@ -34,13 +34,11 @@ services:
       - /tmp/.X11-unix:/tmp/.X11-unix
       - ~/.Xauthority:/home/isaac-sim/.Xauthority
       - ..:/tmp/project
-      - ~/docker/isaac-sim/cache/kit:/isaac-sim/kit/cache/Kit:rw
-      - ~/docker/isaac-sim/cache/ov:/home/isaac-sim/.cache/ov:rw
-      - ~/docker/isaac-sim/cache/pip:/home/isaac-sim/.cache/pip:rw
-      - ~/docker/isaac-sim/cache/glcache:/home/isaac-sim/.cache/nvidia/GLCache:rw
-      - ~/docker/isaac-sim/cache/computecache:/home/isaac-sim/.nv/ComputeCache:rw
-      - ~/docker/isaac-sim/logs:/home/isaac-sim/.nvidia-omniverse/logs:rw
-      - ~/docker/isaac-sim/data:/home/isaac-sim/.local/share/ov/data:rw
+      - ~/docker/isaac-sim/cache/Kit:/isaac-sim/kit/cache/Kit:rw
+      - ~/docker/isaac-sim/.cache:/home/isaac-sim/.cache:rw
+      - ~/docker/isaac-sim/.nv:/home/isaac-sim/.nv:rw
+      - ~/docker/isaac-sim/.nvidia-omniverse:/home/isaac-sim/.nvidia-omniverse:rw
+      - ~/docker/isaac-sim/.local:/home/isaac-sim/.local:rw
       - ~/docker/isaac-sim/documents:/home/isaac-sim/Documents:rw
     network_mode: "host"
     deploy:

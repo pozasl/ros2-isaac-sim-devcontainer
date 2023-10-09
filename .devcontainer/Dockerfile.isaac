@@ -1,10 +1,12 @@
 FROM nvcr.io/nvidia/isaac-sim:2022.2.1
-
+# Add isaac-sim user
 ARG USERNAME=isaac-sim
 ARG USER_UID=1000
 ARG USER_GID=$USER_UID
 RUN groupadd --gid $USER_GID $USERNAME \
     && useradd -s /bin/bash --uid $USER_UID --gid $USER_GID -m $USERNAME
+# Overwrite the default extensions configuration file with ROS Bridge disabled and ROS2 Humble Bridge enabled
+COPY omni.isaac.sim.base.kit /isaac-sim/apps/omni.isaac.sim.base.kit
 RUN chown -R $USERNAME:$USERNAME /isaac-sim 
 RUN mkdir -p /home/$USERNAME/.nvidia-omniverse/config
 RUN cp -r /root/.nvidia-omniverse/config /home/$USERNAME/.nvidia-omniverse/config
